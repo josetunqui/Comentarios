@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MiProfe - Consulta antes de matricularte</title>
+    <title>Opinaula - Consulta antes de matricularte</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <style>
         * {
@@ -44,12 +44,7 @@
             font-weight: bold;
             font-size: 1.5rem;
         }
-        
-        .logo img {
-            height: 30px;
-            margin-right: 10px;
-        }
-        
+ 
         .nav-links {
             display: flex;
             gap: 20px;
@@ -430,6 +425,11 @@
             cursor: pointer;
             color: #999;
         }
+        .logo img {
+            height: 40px; 
+
+        }
+        
     </style>
 </head>
 <body>
@@ -437,12 +437,14 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo" onclick="showHomePage()">
-                    MiProfe
+                  <img src="logo.png">
+                    Opinaula
                 </a>
                 <div class="nav-links">
                     <a href="#" onclick="showHomePage()">Inicio</a>
                     <a href="#" onclick="showProfessorsPage()">Profesores</a>
                     <a href="#" onclick="showAboutPage()">Acerca de</a>
+                    <a href="#" onclick="showSuggestionsPage()">Sugerencias</a>
                 </div>
                 <button class="login-btn" onclick="showLoginForm()">Iniciar sesión</button>
             </nav>
@@ -562,11 +564,11 @@
             
             <!-- Página acerca de -->
             <div id="aboutPage">
-                <h1>Acerca de MiProfe</h1>
+                <h1>Acerca de Opinaula</h1>
                 <p class="subtitle">Tu plataforma para encontrar a los mejores profesores</p>
                 
                 <div style="max-width: 700px; margin: 0 auto; text-align: left; line-height: 1.6;">
-                    <p>MiProfe es una plataforma diseñada para ayudar a los estudiantes a tomar mejores decisiones al momento de matricularse en cursos y elegir profesores.</p>
+                    <p>Opinaula es una plataforma diseñada para ayudar a los estudiantes a tomar mejores decisiones al momento de matricularse en cursos y elegir profesores.</p>
                     <p>Nuestra misión es crear un espacio transparente donde los estudiantes puedan compartir sus experiencias y ayudar a otros a encontrar a los mejores profesores para su estilo de aprendizaje.</p>
                     <p>Valoramos la honestidad, el respeto y las opiniones constructivas que ayuden tanto a estudiantes como a profesores a mejorar la experiencia educativa.</p>
                 </div>
@@ -582,6 +584,55 @@
                 </div>
             </div>
             
+            <!-- Página Sugerencias -->
+            <div id="suggestionsPage">
+                <h1>Sugerencias y Mejoras</h1>
+                <p class="subtitle">Tu opinión es importante para nosotros. Ayúdanos a mejorar Opinaula enviándonos tus sugerencias y comentarios.</p>
+                
+                <div class="form-container">
+                    <form id="suggestionForm">
+                        <div class="form-group">
+                            <label for="suggestionName">Tu nombre (opcional)</label>
+                            <input type="text" id="suggestionName" placeholder="Ej. Juan Pérez">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="suggestionEmail">Tu correo electrónico (opcional)</label>
+                            <input type="email" id="suggestionEmail" placeholder="Ej. juan@ejemplo.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="suggestionType">Tipo de sugerencia</label>
+                            <select id="suggestionType">
+                                <option value="mejora">Mejora de la Plataforma</option>
+                                <option value="error">Reporte de Error</option>
+                                <option value="funcionalidad">Nueva Funcionalidad</option>
+                                <option value="comentario">Comentario General</option>
+                                <option value="pregunta">Pregunta</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="suggestionText">Descripción de la sugerencia</label>
+                            <textarea id="suggestionText" rows="5" placeholder="Escribe aquí tu sugerencia o comentario..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn">Enviar sugerencia</button>
+                    </form>
+                    <p id="suggestionSuccess" style="display: none; color: green; margin-top: 10px;">¡Gracias por tu sugerencia! La hemos recibido y la revisaremos pronto.</p>
+                </div>
+                
+                <div class="social-links">
+                    <p style="margin-bottom: 15px; font-weight: bold;">Contáctanos también por:</p>
+                    <a href="https://wa.me/946074618" target="_blank">
+                        <i class="fab fa-whatsapp"></i> WhatsApp: 946074618
+                    </a>
+                    <a href="https://www.instagram.com/_i.Tonko" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram: _i.Tonko
+                    </a>
+                </div>
+            </div>
+
             <!-- Página de perfil del profesor -->
             <div id="professorProfile">
                 <button class="back-btn" onclick="goBack()">← Volver</button>
@@ -593,6 +644,7 @@
                     <div class="profile-info">
                         <h2 id="profileName"></h2>
                         <div class="subject" id="profileSubject"></div>
+                        <div class="subject" id="profileShifts" style="color: #666; font-size: 0.9rem;"></div>
                         <div class="profile-rating" id="profileRating"></div>
                         <div class="profile-stats">
                             <div class="stat">
@@ -641,6 +693,15 @@
                         <input type="text" id="opinionName" placeholder="Ej. Juan García">
                     </div>
                     
+
+<div class="form-group">
+    <label for="opinionShift">Turno</label>
+    <select id="opinionShift">
+        <option value="Mañana">Mañana</option>
+        <option value="Noche">Noche</option>
+        <option value="Ambos">Ambos</option>
+    </select>
+</div>
                     <div class="form-group">
                         <label for="opinionRating">Tu valoración</label>
                         <select id="opinionRating">
@@ -666,7 +727,7 @@
 
     <footer>
         <div class="container">
-            <p>© 2025 MiProfe - Todos los derechos reservados</p>
+            <p>© 2025 Opinaula - Todos los derechos reservados</p>
             <div class="watermark">Programmed by iTonko</div>
         </div>
     </footer>
@@ -686,19 +747,22 @@
                         author: "María López",
                         date: "15 abril, 2025",
                         rating: 5,
-                        text: "Excelente profesora, explica muy bien y se preocupa por que todos entiendan. Sus exámenes son justos y representa muy bien los temas vistos en clase."
+                        text: "Excelente profesora. Sus clases son dinámicas y siempre relaciona los conceptos teóricos con casos prácticos actuales. Utiliza herramientas digitales que facilitan el aprendizaje y está disponible para consultas fuera de clase. Sus exámenes son justos y reflejan exactamente lo que se enseña en el aula.",
+                        shift: "Mañana"
                     },
                     {
                         author: "Carlos Mendoza",
                         date: "3 marzo, 2025",
                         rating: 4,
-                        text: "Muy buena profesora, aunque a veces va un poco rápido con los temas. Recomiendo tomar apuntes detallados en su clase."
+                        text: "Es una profesora que domina muy bien su materia. A veces avanza rápido con los temas, lo que puede ser complicado si te pierdes una clase. Recomiendo tomar apuntes detallados y formar grupos de estudio. Sus trabajos prácticos son desafiantes pero te permiten aplicar todo lo aprendido.",
+                        shift: "Noche"
                     },
                     {
                         author: "Laura García",
                         date: "15 febrero, 2025",
                         rating: 5,
-                        text: "Una de las mejores profesoras que he tenido. Sus clases son interesantes y los conceptos quedan muy claros. Totalmente recomendada."
+                        text: "Sin duda, una de las mejores profesoras de la facultad. Tiene una manera única de explicar temas complejos de economía haciéndolos accesibles. Sus evaluaciones son coherentes con lo que enseña y siempre da retroalimentación detallada. Lo mejor es que conecta la teoría con problemas económicos reales.",
+                        shift: "Mañana"
                     }
                 ]
             },
@@ -714,13 +778,22 @@
                         author: "Juan Pérez",
                         date: "20 marzo, 2025",
                         rating: 3,
-                        text: "El profesor conoce bien su materia, pero a veces sus explicaciones son confusas. Sus exámenes son bastante difíciles."
+                        text: "El profesor tiene amplio conocimiento en su campo y trae perspectivas interesantes de la industria. Sin embargo, a veces sus explicaciones pueden ser confusas y no siempre responde bien a las preguntas. Sus exámenes son bastante difíciles y no siempre coinciden con lo que se discute en clase.",
+                        shift: "Noche"
                     },
                     {
                         author: "Ana Torres",
                         date: "5 febrero, 2025",
                         rating: 4,
-                        text: "Un profesor muy dedicado que te ayuda cuando lo necesitas. Sus clases son interesantes aunque podría mejorar un poco la dinámica."
+                        text: "Es un profesor dedicado que realmente se preocupa por el aprendizaje de sus estudiantes. Cuando necesitas ayuda adicional, está disponible y es paciente. Sus clases podrían ser más dinámicas, pero compensa esto con proyectos interesantes y estudios de caso relevantes. Vale la pena tomar su curso.",
+                        shift: "Mañana"
+                    },
+                    {
+                        author: "Daniel Morales",
+                        date: "12 enero, 2025",
+                        rating: 2,
+                        text: "Las clases son monótonas y el profesor lee directamente de las diapositivas sin añadir mucho valor. Los trabajos en grupo son excesivos y no siempre tienen instrucciones claras. Los exámenes incluyen temas que apenas se mencionaron en clase. Creo que necesita mejorar su metodología de enseñanza.",
+                        shift: "Noche"
                     }
                 ]
             },
@@ -736,13 +809,22 @@
                         author: "Diana Flores",
                         date: "10 abril, 2025",
                         rating: 5,
-                        text: "Profesor muy actualizado en temas digitales. Sus clases son muy prácticas y aplicas lo aprendido en proyectos reales."
+                        text: "Un profesor extremadamente actualizado en tendencias digitales. Cada clase aporta valor real que puedes aplicar inmediatamente. Los proyectos son prácticos y orientados a situaciones reales del mercado. Utiliza herramientas actuales y nos enseña a analizar datos para tomar decisiones de marketing fundamentadas.",
+                        shift: "Mañana"
                     },
                     {
                         author: "Roberto Sánchez",
                         date: "28 febrero, 2025",
                         rating: 4,
-                        text: "Excelente profesor, siempre trae ejemplos interesantes y actuales. Recomendado para quienes quieren aprender marketing digital moderno."
+                        text: "Sus clases son muy interesantes y siempre trae ejemplos de campañas actuales para analizar. Lo mejor es que tiene experiencia real en agencias de marketing, por lo que sus consejos son muy valiosos. El único punto negativo es que a veces asigna demasiados trabajos simultáneos.",
+                        shift: "Noche"
+                    },
+                    {
+                        author: "Carmen Vega",
+                        date: "15 enero, 2025",
+                        rating: 5,
+                        text: "Definitivamente el mejor profesor de marketing que he tenido. Sus clases son dinámicas y motiva a los estudiantes a participar. Los proyectos son desafiantes pero muy útiles para construir un portafolio profesional. Siempre está disponible para consultas y proporciona retroalimentación detallada.",
+                        shift: "Ambos"
                     }
                 ]
             },
@@ -758,7 +840,22 @@
                         author: "Pedro Ramírez",
                         date: "2 abril, 2025",
                         rating: 5,
-                        text: "La mejor profesora de la facultad. Sus clases son dinámicas y se aprende muchísimo. Muy recomendada."
+                        text: "La profesora Ana María es excepcional. Tiene una forma única de enseñar que mantiene a todos comprometidos. Sus conocimientos están muy actualizados y siempre relaciona la teoría con situaciones prácticas. Sus evaluaciones son justas y se enfoca en el aprendizaje real más que en la memorización.",
+                        shift: "Mañana"
+                    },
+                    {
+                        author: "Lucía Martínez",
+                        date: "15 marzo, 2025",
+                        rating: 5,
+                        text: "Una de las mejores profesoras que he tenido en toda mi carrera. Explica conceptos complejos de forma clara y accesible. Las dinámicas de grupo son muy efectivas y ayudan a entender profundamente los temas. Sus retroalimentaciones son constructivas y te ayudan a crecer académicamente.",
+                        shift: "Noche"
+                    },
+                    {
+                        author: "Fernando Gutiérrez",
+                        date: "20 febrero, 2025",
+                        rating: 4,
+                        text: "Excelente profesora que realmente se preocupa por el aprendizaje de sus estudiantes. Sus clases son interactivas y estimulantes. El único punto a mejorar sería la cantidad de lecturas asignadas, que a veces es abrumadora. Pero en general, una experiencia de aprendizaje muy positiva.",
+                        shift: "Mañana"
                     }
                 ]
             },
@@ -774,7 +871,22 @@
                         author: "Sofía Marín",
                         date: "8 marzo, 2025",
                         rating: 4,
-                        text: "Excelente profesor, hace que temas complejos sean comprensibles. Sus exámenes son desafiantes pero justos."
+                        text: "El profesor Gómez tiene una habilidad increíble para hacer comprensibles temas extremadamente complejos. Sus explicaciones son claras y utiliza analogías efectivas para conceptos abstractos. Los exámenes son desafiantes pero justos, y siempre está disponible para resolver dudas. Recomiendo prepararse bien para cada clase.",
+                        shift: "Mañana"
+                    },
+                    {
+                        author: "Alejandro Duarte",
+                        date: "20 febrero, 2025",
+                        rating: 5,
+                        text: "Un profesor brillante que transmite su pasión por la física cuántica. Sus demostraciones prácticas ayudan mucho a visualizar conceptos difíciles. Valora el pensamiento crítico por encima de la memorización. Sus clases requieren concentración total, pero vale completamente la pena el esfuerzo.",
+                        shift: "Noche"
+                    },
+                    {
+                        author: "Valentina Rojas",
+                        date: "5 febrero, 2025",
+                        rating: 3,
+                        text: "El profesor domina perfectamente la materia, pero a veces asume que todos tenemos su mismo nivel de comprensión. Las sesiones de laboratorio son muy útiles y bien organizadas. Recomiendo formar grupos de estudio para discutir los conceptos después de clase y aprovechar sus horarios de consulta.",
+                        shift: "Mañana"
                     }
                 ]
             },
@@ -790,7 +902,22 @@
                         author: "Miguel Ángel Torres",
                         date: "15 marzo, 2025",
                         rating: 3,
-                        text: "Profesora con buen conocimiento pero las clases podrían ser más dinámicas. A veces es difícil mantener la atención."
+                        text: "La profesora tiene un amplio conocimiento literario y selecciona obras interesantes para el curso. Sin embargo, las clases tienden a ser muy teóricas y a veces monótonas. Los trabajos escritos reciben buena retroalimentación, pero las discusiones en clase podrían ser más dinámicas para mantener el interés de los estudiantes.",
+                        shift: "Noche"
+                    },
+                    {
+                        author: "Elena Castro",
+                        date: "10 febrero, 2025",
+                        rating: 4,
+                        text: "Me gustó mucho su enfoque analítico de las obras contemporáneas. La profesora fomenta la interpretación personal y el pensamiento crítico. Las sesiones de debate son lo mejor del curso, aunque a veces no hay tiempo suficiente para profundizar. Los ensayos son desafiantes pero muy formativos.",
+                        shift: "Mañana"
+                    },
+                    {
+                        author: "Jorge Méndez",
+                        date: "20 enero, 2025",
+                        rating: 2,
+                        text: "Las clases son principalmente lecturas en voz alta de sus notas. Falta dinamismo y participación estudiantil. La selección de lecturas es buena, pero el método de evaluación es confuso y los criterios de calificación no son claros. Podrían implementarse más actividades interactivas para mejorar el curso.",
+                        shift: "Noche"
                     }
                 ]
             }
@@ -801,6 +928,7 @@
             document.getElementById('homePage').style.display = 'block';
             document.getElementById('professorsList').style.display = 'none';
             document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
             document.getElementById('professorProfile').style.display = 'none';
             document.getElementById('addOpinionForm').style.display = 'none';
         }
@@ -810,6 +938,7 @@
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('professorsList').style.display = 'block';
             document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
             document.getElementById('professorProfile').style.display = 'none';
             document.getElementById('addOpinionForm').style.display = 'none';
             
@@ -823,6 +952,17 @@
             document.getElementById('professorsList').style.display = 'none';
             document.getElementById('aboutPage').style.display = 'block';
             document.getElementById('professorProfile').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
+            document.getElementById('addOpinionForm').style.display = 'none';
+        }
+
+        // Función para mostrar la página sugerencias
+        function showSuggestionsPage() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('professorsList').style.display = 'none';
+            document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'block';
+            document.getElementById('professorProfile').style.display = 'none';
             document.getElementById('addOpinionForm').style.display = 'none';
         }
         
@@ -831,6 +971,7 @@
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('professorsList').style.display = 'none';
             document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
             document.getElementById('professorProfile').style.display = 'block';
             document.getElementById('addOpinionForm').style.display = 'none';
             
@@ -843,6 +984,7 @@
             document.getElementById('homePage').style.display = 'none';
             document.getElementById('professorsList').style.display = 'none';
             document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
             document.getElementById('professorProfile').style.display = 'none';
             document.getElementById('addOpinionForm').style.display = 'block';
             
@@ -940,6 +1082,24 @@
             document.getElementById('experienceYears').textContent = professor.experienceYears || 0;
             document.getElementById('recommendedPercentage').textContent = professor.recommendedPercentage || '0%';
             
+            
+            // Calcular turnos únicos
+            const shifts = new Set();
+            if (professor.comments && professor.comments.length > 0) {
+                professor.comments.forEach(comment => {
+                    if (comment.shift) {
+                        if (comment.shift === "Ambos") {
+                            shifts.add("Mañana");
+                            shifts.add("Noche");
+                        } else {
+                            shifts.add(comment.shift);
+                        }
+                    }
+                });
+            }
+            const shiftsArray = Array.from(shifts).sort();
+            document.getElementById('profileShifts').textContent = "Turno: " + (shiftsArray.length > 0 ? shiftsArray.join("-") : "No especificado");
+
             // Cargar comentarios
             const commentsContainer = document.getElementById('commentsContainer');
             commentsContainer.innerHTML = '';
@@ -958,6 +1118,7 @@
                             ${getRatingStars(comment.rating)}
                         </div>
                         <div class="comment-text">${comment.text}</div>
+                        <div style="font-size: 0.85rem; color: #666;">Turno: ${comment.shift}</div>
                     `;
                     
                     commentsContainer.appendChild(commentElement);
@@ -1017,7 +1178,10 @@
             const professorId = document.getElementById('opinionProfessor').value;
             const name = document.getElementById('opinionName').value;
             const rating = parseInt(document.getElementById('opinionRating').value);
+            const shift = document.getElementById('opinionShift').value;
             const text = document.getElementById('opinionText').value;
+            const palabrasProhibidas = ['tonto', 'estúpido', 'idiota', 'mierda', 'imbécil']; // Puedes ampliar la lista
+
             
             if (professorId && name && text) {
                 // Encontrar el profesor
@@ -1040,7 +1204,8 @@
                         author: name,
                         date: dateStr,
                         rating: rating,
-                        text: text
+                        text: text,
+                        shift: shift
                     });
                     
                     // Recalcular la valoración media del profesor
@@ -1051,6 +1216,7 @@
                     document.getElementById('opinionName').value = '';
                     document.getElementById('opinionRating').value = '4';
                     document.getElementById('opinionText').value = '';
+                    document.getElementById('opinionShift').value = 'Mañana';
                     
                     alert('Opinión enviada correctamente');
                     
@@ -1075,6 +1241,7 @@
                 };
             });
         });
+        
     </script>
 </body>
 </html>
