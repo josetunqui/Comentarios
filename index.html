@@ -12,31 +12,39 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f5f5f5;
             min-height: 100vh;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         header {
             background-color: white;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 15px 0;
+            position: relative; /* Essential for positioning the mobile menu */
+            z-index: 1000; /* Ensure header is on top */
         }
-        
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
-        .logo {
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            z-index: 1001; /* Ensure logo is above mobile menu when open */
+        }
+
+        .opinaula-logo {
             display: flex;
             align-items: center;
             text-decoration: none;
@@ -44,18 +52,32 @@
             font-weight: bold;
             font-size: 1.5rem;
         }
- 
+
+        .opinaula-logo img {
+            height: 40px;
+            margin-right: 8px;
+        }
+
+
+
+
         .nav-links {
-            display: flex;
+            display: flex; /* Default for desktop */
             gap: 20px;
         }
-        
+
         .nav-links a {
             text-decoration: none;
             color: #333;
             font-weight: 500;
+            padding: 5px 0;
+            transition: color 0.3s ease;
         }
-        
+
+        .nav-links a:hover {
+            color: #0075ff;
+        }
+
         .login-btn {
             background-color: #e9f2ff;
             color: #0075ff;
@@ -64,56 +86,183 @@
             border-radius: 4px;
             font-weight: 500;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
-        
+
+        .login-btn:hover {
+            background-color: #d0e4ff;
+        }
+
+        /* Hamburger menu styles */
+        .menu-toggle {
+            display: none; /* Hidden by default on desktop */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 1001; /* Ensure button is above other content */
+        }
+
+        .bar {
+            width: 100%;
+            height: 3px;
+            background-color: #333;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        /* Animation for the hamburger icon */
+        .menu-toggle.open .bar:nth-child(1) {
+            transform: translateY(11px) rotate(45deg);
+        }
+
+        .menu-toggle.open .bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open .bar:nth-child(3) {
+            transform: translateY(-11px) rotate(-45deg);
+        }
+
+        /* Media query for mobile responsiveness */
+        @media (max-width: 768px) {
+            .logo-container {
+                justify-content: space-between; /* Distribute logos and toggle */
+                width: 100%; /* Take full width to accommodate toggle */
+            }
+            .nav-links {
+                display: flex; /* Ensure it's a flex container for column layout */
+                flex-direction: column;
+                position: fixed; /* Fixed position for slide-in effect */
+                top: 0;
+                right: -100%; /* Start off-screen to the right */
+                width: 70%; /* Adjust width of the slide-in menu */
+                height: 100vh;
+                background-color: #0075ff; /* Blue background as in your image */
+                box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+                padding-top: 80px; /* Space for the header/logo */
+                transition: right 0.3s ease-in-out; /* Smooth slide-in transition */
+                z-index: 999; /* Below header, above main content */
+                align-items: flex-start; /* Align items to the left */
+            }
+
+            .nav-links.active {
+                right: 0; /* Slide into view */
+            }
+
+            .nav-links a {
+                width: 100%;
+                text-align: left; /* Align text to the left */
+                padding: 15px 25px; /* More padding for menu items */
+                color: white; /* White text color */
+                font-size: 1.1rem;
+                border-bottom: 1px solid rgba(255,255,255,0.1); /* Lighter separator */
+            }
+
+            .nav-links a:last-child {
+                border-bottom: none;
+            }
+
+            .menu-toggle {
+                display: flex; /* Show hamburger on small screens */
+            }
+
+            .login-btn {
+                display: none; /* Hide login button on mobile */
+            }
+
+            /* Styles for the close button (X) */
+            .menu-toggle.open .bar {
+                background-color: white; /* X color to white */
+            }
+
+            .menu-toggle {
+                position: relative; /* To position the X button correctly within the header */
+                right: 0; /* Align with header */
+            }
+
+            /* NEW: Horizontal scroll for featured teachers on mobile */
+            .horizontal-scroll-grid {
+                display: flex;
+                flex-wrap: nowrap; /* Prevent cards from wrapping */
+                overflow-x: auto; /* Enable horizontal scrolling */
+                -webkit-overflow-scrolling: touch; /* Smoother scrolling on iOS */
+                justify-content: flex-start; /* Align items to the start */
+                gap: 15px; /* Adjust gap for horizontal layout */
+                padding-bottom: 10px; /* Space for scrollbar */
+            }
+
+            .horizontal-scroll-grid .teacher-card {
+                flex: 0 0 180px; /* Prevent shrinking, set a fixed width for mobile horizontal scroll */
+                width: 180px; /* Fallback for older browsers */
+            }
+        }
+
+        /* Rest of your CSS remains the same */
         main {
             padding: 40px 0;
             text-align: center;
         }
-        
+
         h1 {
-            font-size: 2rem;
+            font-size: 2.5rem; /* Larger font size for main title */
             color: #333;
             margin-bottom: 15px;
         }
-        
+
+        h2 {
+            font-size: 1.8rem; /* Consistent H2 size */
+            color: #333;
+            margin-bottom: 20px;
+        }
+
         p.subtitle {
             font-size: 1.1rem;
             color: #666;
             margin-bottom: 30px;
         }
-        
+
+        .home-description {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            text-align: center;
+            line-height: 1.6;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
         .search-box {
             max-width: 500px;
             margin: 0 auto 40px;
         }
-        
-        input[type="text"] {
+
+        input[type="text"] { /* Changed from input-box to input[type="text"] */
             width: 100%;
             padding: 12px 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
             font-size: 1rem;
         }
-        
+
         .featured-teachers {
             text-align: center;
             margin-bottom: 40px;
         }
-        
+
         .featured-teachers h2 {
             font-size: 1.5rem;
             color: #333;
             margin-bottom: 20px;
         }
-        
+
         .teachers-grid {
             display: flex;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
         }
-        
+
         .teacher-card {
             background-color: white;
             border-radius: 8px;
@@ -124,12 +273,12 @@
             cursor: pointer;
             transition: transform 0.2s;
         }
-        
+
         .teacher-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .teacher-avatar {
             width: 40px;
             height: 40px;
@@ -141,22 +290,22 @@
             margin-bottom: 10px;
             color: #0075ff;
         }
-        
+
         .teacher-name {
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .teacher-subject {
             color: #666;
             font-size: 0.9rem;
             margin-bottom: 10px;
         }
-        
+
         .rating {
             color: #ffb100;
         }
-        
+
         .student-cta {
             background-color: #f0f7ff;
             border-radius: 8px;
@@ -167,21 +316,21 @@
             max-width: 500px;
             margin: 0 auto;
         }
-        
+
         .student-cta-text {
             text-align: left;
         }
-        
+
         .student-cta-text p:first-child {
             font-weight: bold;
             margin-bottom: 5px;
         }
-        
+
         .student-cta-text p:last-child {
             color: #666;
             font-size: 0.9rem;
         }
-        
+
         .add-opinion-btn {
             background-color: #0075ff;
             color: white;
@@ -191,7 +340,7 @@
             font-weight: 500;
             cursor: pointer;
         }
-        
+
         footer {
             text-align: center;
             padding: 20px;
@@ -200,7 +349,7 @@
             font-size: 0.8rem;
             position: relative;
         }
-        
+
         .watermark {
             position: absolute;
             bottom: 5px;
@@ -208,33 +357,22 @@
             opacity: 0.5;
             font-style: italic;
         }
-        
-        #professorsList {
+
+        /* Hide all pages by default except the one shown by JS */
+        #professorsList, #aboutPage, #professorProfile, #addOpinionForm, #suggestionsPage, #tasksPage, #bestTeachersPage {
             display: none;
         }
-        
-        #aboutPage {
-            display: none;
-        }
-        
-        #professorProfile {
-            display: none;
-        }
-        
-        #addOpinionForm {
-            display: none;
-        }
-        
+
         .social-links {
             margin-top: 20px;
         }
-        
+
         .social-links a {
             margin: 0 10px;
             color: #0075ff;
             text-decoration: none;
         }
-        
+
         .form-container {
             background-color: white;
             padding: 20px;
@@ -243,25 +381,25 @@
             max-width: 500px;
             margin: 20px auto;
         }
-        
+
         .form-group {
             margin-bottom: 15px;
         }
-        
+
         .form-group label {
             display: block;
             margin-bottom: 5px;
             text-align: left;
             font-weight: 500;
         }
-        
+
         .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
-        
+
         .submit-btn {
             background-color: #0075ff;
             color: white;
@@ -272,7 +410,7 @@
             cursor: pointer;
             width: 100%;
         }
-        
+
         .back-btn {
             background-color: #f0f0f0;
             color: #333;
@@ -283,7 +421,7 @@
             cursor: pointer;
             margin-top: 10px;
         }
-        
+
         .profile-header {
             background-color: white;
             border-radius: 8px;
@@ -294,7 +432,7 @@
             display: flex;
             align-items: center;
         }
-        
+
         .profile-avatar {
             width: 80px;
             height: 80px;
@@ -307,47 +445,47 @@
             color: #0075ff;
             font-size: 1.5rem;
         }
-        
+
         .profile-info {
             flex: 1;
         }
-        
+
         .profile-info h2 {
             margin-bottom: 5px;
             font-size: 1.8rem;
         }
-        
+
         .profile-info .subject {
             color: #666;
             margin-bottom: 10px;
         }
-        
+
         .profile-rating {
             font-size: 1.2rem;
             color: #ffb100;
             margin-bottom: 10px;
         }
-        
+
         .profile-stats {
             display: flex;
             gap: 30px;
         }
-        
+
         .stat {
             text-align: center;
         }
-        
+
         .stat-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: #0075ff;
         }
-        
+
         .stat-label {
             color: #666;
             font-size: 0.9rem;
         }
-        
+
         .comments-section {
             background-color: white;
             border-radius: 8px;
@@ -355,47 +493,47 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
             margin-bottom: 30px;
         }
-        
+
         .comments-section h3 {
             text-align: left;
             margin-bottom: 20px;
             font-size: 1.3rem;
         }
-        
+
         .comment {
             padding: 15px;
             border-bottom: 1px solid #eee;
             text-align: left;
         }
-        
+
         .comment:last-child {
             border-bottom: none;
         }
-        
+
         .comment-header {
             display: flex;
             justify-content: space-between;
             margin-bottom: 10px;
         }
-        
+
         .comment-author {
             font-weight: bold;
         }
-        
+
         .comment-date {
             color: #999;
             font-size: 0.9rem;
         }
-        
+
         .comment-rating {
             color: #ffb100;
             margin-bottom: 10px;
         }
-        
+
         .comment-text {
             line-height: 1.5;
         }
-        
+
         .modal {
             display: none;
             position: fixed;
@@ -407,7 +545,7 @@
             z-index: 1000;
             overflow: auto;
         }
-        
+
         .modal-content {
             background-color: white;
             border-radius: 8px;
@@ -416,7 +554,7 @@
             padding: 20px;
             position: relative;
         }
-        
+
         .close-modal {
             position: absolute;
             top: 15px;
@@ -425,24 +563,94 @@
             cursor: pointer;
             color: #999;
         }
-        .logo img {
-            height: 40px; 
 
+        /* Styles for Tasks Page */
+        .cycles-container, .careers-container, .tasks-container {
+            margin-top: 40px;
+            text-align: center;
         }
-        
+
+        .cycles-grid, .careers-grid, .tasks-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .cycle-card, .career-card, .task-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .cycle-card:hover, .career-card:hover, .task-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .task-card h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .watermarked-preview {
+            position: relative;
+            width: 100%;
+            height: 150px; /* Adjust as needed */
+            overflow: hidden;
+            background-color: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+
+        .watermarked-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px); /* Optional: blur the image slightly */
+        }
+
+        .watermark-text {
+            position: absolute;
+            color: rgba(0, 0, 0, 0.3); /* Semi-transparent watermark */
+            font-size: 2em;
+            font-weight: bold;
+            transform: rotate(-45deg);
+            pointer-events: none; /* Make text unclickable */
+            user-select: none; /* Prevent text selection */
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
             <nav>
-                <a href="#" class="logo" onclick="showHomePage()">
-                  <img src="logo.png">
-                    Opinaula
-                </a>
+                <div class="logo-container">
+                    <a href="#" class="opinaula-logo" onclick="showHomePage()">
+                        <img src="logo.png" alt="Opinaula Logo">
+                        Opinaula
+                    </a>
+
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
                 <div class="nav-links">
                     <a href="#" onclick="showHomePage()">Inicio</a>
+                    <a href="#" onclick="showBestTeachersPage()">Mejores Docentes</a>
                     <a href="#" onclick="showProfessorsPage()">Profesores</a>
+                    <a href="#" onclick="showTasksPage()">Tareas</a>
                     <a href="#" onclick="showAboutPage()">Acerca de</a>
                     <a href="#" onclick="showSuggestionsPage()">Sugerencias</a>
                 </div>
@@ -453,65 +661,94 @@
 
     <main>
         <div class="container">
-            <!-- Página de inicio -->
             <div id="homePage">
-                <h1>Consulta antes de matricularte</h1>
-                <p class="subtitle">Lee opiniones de estudiantes y encuentra al mejor profesor para ti</p>
-                
+                <h1>Tu opinión importa, elige mejor</h1>
+                <p class="subtitle">Descubre y comparte experiencias sobre tus docentes de la UTP</p>
+                <p class="home-description">Opinaula es la plataforma donde estudiantes de la Universidad Tecnológica del Perú (UTP) pueden encontrar y compartir opiniones sobre sus profesores. Obtén información valiosa antes de matricularte y contribuye a una comunidad estudiantil informada.</p>
+
                 <div class="search-box">
-                    <input type="text" placeholder="Introduce el nombre del profesor">
+                    <input type="text" id="homeSearchInput" placeholder="Buscar profesor por nombre o asignatura">
                 </div>
-                
-                <div class="featured-teachers">
-                    <h2>Profesores mejor valorados</h2>
-                    <div class="teachers-grid">
-                        <div class="teacher-card">
-                            <div class="teacher-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="teacher-name">Paola Valdivia Rodríguez</div>
-                            <div class="teacher-subject">Economía</div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
+            </div>
+
+            <div id="bestTeachersPage">
+                <h2>Profesores mejor valorados</h2>
+                <p class="subtitle">Explora los docentes con las mejores valoraciones de la comunidad Opinaula</p>
+                <div class="teachers-grid horizontal-scroll-grid" id="featuredTeachers">
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
                         </div>
-                        
-                        <div class="teacher-card">
-                            <div class="teacher-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="teacher-name">Carlos Andre Burneo González</div>
-                            <div class="teacher-subject">Administración de Negocios</div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
+                        <div class="teacher-name">Paola Valdivia Rodríguez</div>
+                        <div class="teacher-subject">Economía</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
                         </div>
-                        
-                        <div class="teacher-card">
-                            <div class="teacher-avatar">
-                                <i class="fas fa-user"></i>
-                            </div>
-                            <div class="teacher-name">Julio Rocca</div>
-                            <div class="teacher-subject">Marketing digital</div>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">Carlos Andre Burneo González</div>
+                        <div class="teacher-subject">Administración de Negocios</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+
+                    <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">Julio Rocca</div>
+                        <div class="teacher-subject">Marketing digital</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                     <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">Ana María Perez</div>
+                        <div class="teacher-subject">Matemáticas</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                     <div class="teacher-card">
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">Miguel Torres</div>
+                        <div class="teacher-subject">Programación</div>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="student-cta">
                     <div class="student-cta-text">
                         <p>¿Eres estudiante?</p>
@@ -520,33 +757,32 @@
                     <button class="add-opinion-btn" onclick="showAddOpinionForm()">Agregar opinión</button>
                 </div>
             </div>
-            
-            <!-- Página de profesores -->
+
+
             <div id="professorsList">
                 <h1>Todos los profesores</h1>
                 <p class="subtitle">Explora la lista completa de profesores y agrega nuevos</p>
-                
+
                 <div class="search-box">
-                    <input type="text" placeholder="Buscar profesor por nombre o asignatura">
+                    <input type="text" id="professorsSearchInput" placeholder="Buscar profesor por nombre o asignatura">
                 </div>
-                
+
                 <div class="teachers-grid" id="allTeachers">
-                    <!-- Los profesores existentes se cargarán aquí dinámicamente -->
-                </div>
-                
+                    </div>
+
                 <h2 style="margin-top: 40px; margin-bottom: 20px;">Agregar nuevo profesor</h2>
-                
+
                 <div class="add-professor-form">
                     <div class="form-group">
                         <label for="professorName">Nombre completo</label>
                         <input type="text" id="professorName" placeholder="Ej. María López García">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="professorSubject">Asignatura</label>
                         <input type="text" id="professorSubject" placeholder="Ej. Matemáticas Avanzadas">
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="professorRating">Valoración inicial</label>
                         <select id="professorRating">
@@ -557,22 +793,21 @@
                             <option value="5">5 estrellas</option>
                         </select>
                     </div>
-                    
+
                     <button class="submit-btn" onclick="addNewProfessor()">Añadir profesor</button>
                 </div>
             </div>
-            
-            <!-- Página acerca de -->
+
             <div id="aboutPage">
                 <h1>Acerca de Opinaula</h1>
                 <p class="subtitle">Tu plataforma para encontrar a los mejores profesores</p>
-                
+
                 <div style="max-width: 700px; margin: 0 auto; text-align: left; line-height: 1.6;">
                     <p>Opinaula es una plataforma diseñada para ayudar a los estudiantes a tomar mejores decisiones al momento de matricularse en cursos y elegir profesores.</p>
                     <p>Nuestra misión es crear un espacio transparente donde los estudiantes puedan compartir sus experiencias y ayudar a otros a encontrar a los mejores profesores para su estilo de aprendizaje.</p>
                     <p>Valoramos la honestidad, el respeto y las opiniones constructivas que ayuden tanto a estudiantes como a profesores a mejorar la experiencia educativa.</p>
                 </div>
-                
+
                 <div class="social-links">
                     <p style="margin-bottom: 15px; font-weight: bold;">Contáctanos</p>
                     <a href="https://wa.me/946074618" target="_blank">
@@ -583,24 +818,18 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Página Sugerencias -->
+
             <div id="suggestionsPage">
                 <h1>Sugerencias y Mejoras</h1>
                 <p class="subtitle">Tu opinión es importante para nosotros. Ayúdanos a mejorar Opinaula enviándonos tus sugerencias y comentarios.</p>
-                
+
                 <div class="form-container">
                     <form id="suggestionForm">
                         <div class="form-group">
                             <label for="suggestionName">Tu nombre (opcional)</label>
                             <input type="text" id="suggestionName" placeholder="Ej. Juan Pérez">
                         </div>
-                        
-                        <div class="form-group">
-                            <label for="suggestionEmail">Tu correo electrónico (opcional)</label>
-                            <input type="email" id="suggestionEmail" placeholder="Ej. juan@ejemplo.com">
-                        </div>
-                        
+
                         <div class="form-group">
                             <label for="suggestionType">Tipo de sugerencia</label>
                             <select id="suggestionType">
@@ -611,17 +840,17 @@
                                 <option value="pregunta">Pregunta</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label for="suggestionText">Descripción de la sugerencia</label>
                             <textarea id="suggestionText" rows="5" placeholder="Escribe aquí tu sugerencia o comentario..."></textarea>
                         </div>
-                        
+
                         <button type="submit" class="submit-btn">Enviar sugerencia</button>
                     </form>
                     <p id="suggestionSuccess" style="display: none; color: green; margin-top: 10px;">¡Gracias por tu sugerencia! La hemos recibido y la revisaremos pronto.</p>
                 </div>
-                
+
                 <div class="social-links">
                     <p style="margin-bottom: 15px; font-weight: bold;">Contáctanos también por:</p>
                     <a href="https://wa.me/946074618" target="_blank">
@@ -633,10 +862,38 @@
                 </div>
             </div>
 
-            <!-- Página de perfil del profesor -->
+            <div id="tasksPage">
+                <h1>Repositorio de Tareas Académicas</h1>
+                <p class="subtitle">Explora TAs de diferentes ciclos y carreras con previsualización con marca de agua.</p>
+
+                <div class="cycles-container" id="cyclesContainer">
+                    <h2>Selecciona un Ciclo</h2>
+                    <div class="cycles-grid" id="cyclesGrid">
+                        <div class="cycle-card" onclick="showCareers('Ciclo 1')">Ciclo 1</div>
+                        <div class="cycle-card" onclick="showCareers('Ciclo 2')">Ciclo 2</div>
+                        <div class="cycle-card" onclick="showCareers('Ciclo 3')">Ciclo 3</div>
+                        <div class="cycle-card" onclick="showCareers('Ciclo 4')">Ciclo 4</div>
+                        </div>
+                </div>
+
+                <div class="careers-container" id="careersContainer">
+                    <button class="back-btn" onclick="showCycles()">← Volver a Ciclos</button>
+                    <h2 id="currentCycleTitle"></h2>
+                    <div class="careers-grid" id="careersGrid">
+                        </div>
+                </div>
+
+                <div class="tasks-container" id="tasksContainer">
+                    <button class="back-btn" onclick="showCareers(window.currentCycle)">← Volver a Carreras</button>
+                    <h2 id="currentCareerTitle"></h2>
+                    <div class="tasks-grid" id="allTasks">
+                        </div>
+                </div>
+            </div>
+
             <div id="professorProfile">
                 <button class="back-btn" onclick="goBack()">← Volver</button>
-                
+
                 <div class="profile-header">
                     <div class="profile-avatar">
                         <i class="fas fa-user"></i>
@@ -662,46 +919,43 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="comments-section">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                         <h3>Opiniones de estudiantes</h3>
                         <button class="add-opinion-btn" onclick="showAddOpinionForm(true)">Añadir opinión</button>
                     </div>
-                    
+
                     <div id="commentsContainer">
-                        <!-- Las opiniones se cargarán dinámicamente aquí -->
-                    </div>
+                        </div>
                 </div>
             </div>
-            
-            <!-- Formulario para añadir opinión -->
+
             <div id="addOpinionForm">
                 <h2>Añadir opinión</h2>
                 <p class="subtitle">Comparte tu experiencia con este profesor</p>
-                
+
                 <div class="form-container">
                     <div class="form-group">
                         <label for="opinionProfessor">Profesor</label>
                         <select id="opinionProfessor">
-                            <!-- Las opciones se cargarán dinámicamente -->
-                        </select>
+                            </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="opinionName">Tu nombre</label>
                         <input type="text" id="opinionName" placeholder="Ej. Juan García">
                     </div>
-                    
 
-<div class="form-group">
-    <label for="opinionShift">Turno</label>
-    <select id="opinionShift">
-        <option value="Mañana">Mañana</option>
-        <option value="Noche">Noche</option>
-        <option value="Ambos">Ambos</option>
-    </select>
-</div>
+
+                    <div class="form-group">
+                        <label for="opinionShift">Turno</label>
+                        <select id="opinionShift">
+                            <option value="Mañana">Mañana</option>
+                            <option value="Noche">Noche</option>
+                            <option value="Ambos">Ambos</option>
+                        </select>
+                    </div>
                     <div class="form-group">
                         <label for="opinionRating">Tu valoración</label>
                         <select id="opinionRating">
@@ -712,12 +966,12 @@
                             <option value="5">5 estrellas - Excelente</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label for="opinionText">Tu opinión</label>
                         <textarea id="opinionText" rows="5" placeholder="Comparte tu experiencia con este profesor..."></textarea>
                     </div>
-                    
+
                     <button class="submit-btn" onclick="submitOpinion()">Enviar opinión</button>
                     <button class="back-btn" onclick="hideAddOpinionForm()">Cancelar</button>
                 </div>
@@ -733,357 +987,364 @@
     </footer>
 
     <script>
-        // Datos de profesores
-        const professors = [
-            {
-                id: 1,
-                name: "Paola Valdivia Rodríguez",
-                subject: "Economía",
-                rating: 4,
-                experienceYears: 8,
-                recommendedPercentage: "92%",
-                comments: [
-                    {
-                        author: "María López",
-                        date: "15 abril, 2025",
-                        rating: 5,
-                        text: "Excelente profesora. Sus clases son dinámicas y siempre relaciona los conceptos teóricos con casos prácticos actuales. Utiliza herramientas digitales que facilitan el aprendizaje y está disponible para consultas fuera de clase. Sus exámenes son justos y reflejan exactamente lo que se enseña en el aula.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Carlos Mendoza",
-                        date: "3 marzo, 2025",
-                        rating: 4,
-                        text: "Es una profesora que domina muy bien su materia. A veces avanza rápido con los temas, lo que puede ser complicado si te pierdes una clase. Recomiendo tomar apuntes detallados y formar grupos de estudio. Sus trabajos prácticos son desafiantes pero te permiten aplicar todo lo aprendido.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Laura García",
-                        date: "15 febrero, 2025",
-                        rating: 5,
-                        text: "Sin duda, una de las mejores profesoras de la facultad. Tiene una manera única de explicar temas complejos de economía haciéndolos accesibles. Sus evaluaciones son coherentes con lo que enseña y siempre da retroalimentación detallada. Lo mejor es que conecta la teoría con problemas económicos reales.",
-                        shift: "Mañana"
-                    }
-                ]
-            },
-            {
-                id: 2,
-                name: "Carlos Andre Burneo González",
-                subject: "Administración de Negocios",
-                rating: 3,
-                experienceYears: 5,
-                recommendedPercentage: "75%",
-                comments: [
-                    {
-                        author: "Juan Pérez",
-                        date: "20 marzo, 2025",
-                        rating: 3,
-                        text: "El profesor tiene amplio conocimiento en su campo y trae perspectivas interesantes de la industria. Sin embargo, a veces sus explicaciones pueden ser confusas y no siempre responde bien a las preguntas. Sus exámenes son bastante difíciles y no siempre coinciden con lo que se discute en clase.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Ana Torres",
-                        date: "5 febrero, 2025",
-                        rating: 4,
-                        text: "Es un profesor dedicado que realmente se preocupa por el aprendizaje de sus estudiantes. Cuando necesitas ayuda adicional, está disponible y es paciente. Sus clases podrían ser más dinámicas, pero compensa esto con proyectos interesantes y estudios de caso relevantes. Vale la pena tomar su curso.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Daniel Morales",
-                        date: "12 enero, 2025",
-                        rating: 2,
-                        text: "Las clases son monótonas y el profesor lee directamente de las diapositivas sin añadir mucho valor. Los trabajos en grupo son excesivos y no siempre tienen instrucciones claras. Los exámenes incluyen temas que apenas se mencionaron en clase. Creo que necesita mejorar su metodología de enseñanza.",
-                        shift: "Noche"
-                    }
-                ]
-            },
-            {
-                id: 3,
-                name: "Julio Rocca",
-                subject: "Marketing digital",
-                rating: 4,
-                experienceYears: 6,
-                recommendedPercentage: "88%",
-                comments: [
-                    {
-                        author: "Diana Flores",
-                        date: "10 abril, 2025",
-                        rating: 5,
-                        text: "Un profesor extremadamente actualizado en tendencias digitales. Cada clase aporta valor real que puedes aplicar inmediatamente. Los proyectos son prácticos y orientados a situaciones reales del mercado. Utiliza herramientas actuales y nos enseña a analizar datos para tomar decisiones de marketing fundamentadas.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Roberto Sánchez",
-                        date: "28 febrero, 2025",
-                        rating: 4,
-                        text: "Sus clases son muy interesantes y siempre trae ejemplos de campañas actuales para analizar. Lo mejor es que tiene experiencia real en agencias de marketing, por lo que sus consejos son muy valiosos. El único punto negativo es que a veces asigna demasiados trabajos simultáneos.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Carmen Vega",
-                        date: "15 enero, 2025",
-                        rating: 5,
-                        text: "Definitivamente el mejor profesor de marketing que he tenido. Sus clases son dinámicas y motiva a los estudiantes a participar. Los proyectos son desafiantes pero muy útiles para construir un portafolio profesional. Siempre está disponible para consultas y proporciona retroalimentación detallada.",
-                        shift: "Ambos"
-                    }
-                ]
-            },
-            {
-                id: 4,
-                name: "Ana María Sánchez",
-                subject: "Psicología Educativa",
-                rating: 5,
-                experienceYears: 12,
-                recommendedPercentage: "96%",
-                comments: [
-                    {
-                        author: "Pedro Ramírez",
-                        date: "2 abril, 2025",
-                        rating: 5,
-                        text: "La profesora Ana María es excepcional. Tiene una forma única de enseñar que mantiene a todos comprometidos. Sus conocimientos están muy actualizados y siempre relaciona la teoría con situaciones prácticas. Sus evaluaciones son justas y se enfoca en el aprendizaje real más que en la memorización.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Lucía Martínez",
-                        date: "15 marzo, 2025",
-                        rating: 5,
-                        text: "Una de las mejores profesoras que he tenido en toda mi carrera. Explica conceptos complejos de forma clara y accesible. Las dinámicas de grupo son muy efectivas y ayudan a entender profundamente los temas. Sus retroalimentaciones son constructivas y te ayudan a crecer académicamente.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Fernando Gutiérrez",
-                        date: "20 febrero, 2025",
-                        rating: 4,
-                        text: "Excelente profesora que realmente se preocupa por el aprendizaje de sus estudiantes. Sus clases son interactivas y estimulantes. El único punto a mejorar sería la cantidad de lecturas asignadas, que a veces es abrumadora. Pero en general, una experiencia de aprendizaje muy positiva.",
-                        shift: "Mañana"
-                    }
-                ]
-            },
-            {
-                id: 5,
-                name: "Roberto Gómez",
-                subject: "Física Cuántica",
-                rating: 4,
-                experienceYears: 9,
-                recommendedPercentage: "85%",
-                comments: [
-                    {
-                        author: "Sofía Marín",
-                        date: "8 marzo, 2025",
-                        rating: 4,
-                        text: "El profesor Gómez tiene una habilidad increíble para hacer comprensibles temas extremadamente complejos. Sus explicaciones son claras y utiliza analogías efectivas para conceptos abstractos. Los exámenes son desafiantes pero justos, y siempre está disponible para resolver dudas. Recomiendo prepararse bien para cada clase.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Alejandro Duarte",
-                        date: "20 febrero, 2025",
-                        rating: 5,
-                        text: "Un profesor brillante que transmite su pasión por la física cuántica. Sus demostraciones prácticas ayudan mucho a visualizar conceptos difíciles. Valora el pensamiento crítico por encima de la memorización. Sus clases requieren concentración total, pero vale completamente la pena el esfuerzo.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Valentina Rojas",
-                        date: "5 febrero, 2025",
-                        rating: 3,
-                        text: "El profesor domina perfectamente la materia, pero a veces asume que todos tenemos su mismo nivel de comprensión. Las sesiones de laboratorio son muy útiles y bien organizadas. Recomiendo formar grupos de estudio para discutir los conceptos después de clase y aprovechar sus horarios de consulta.",
-                        shift: "Mañana"
-                    }
-                ]
-            },
-            {
-                id: 6,
-                name: "Lucía Fernández",
-                subject: "Literatura Contemporánea",
-                rating: 3,
-                experienceYears: 4,
-                recommendedPercentage: "70%",
-                comments: [
-                    {
-                        author: "Miguel Ángel Torres",
-                        date: "15 marzo, 2025",
-                        rating: 3,
-                        text: "La profesora tiene un amplio conocimiento literario y selecciona obras interesantes para el curso. Sin embargo, las clases tienden a ser muy teóricas y a veces monótonas. Los trabajos escritos reciben buena retroalimentación, pero las discusiones en clase podrían ser más dinámicas para mantener el interés de los estudiantes.",
-                        shift: "Noche"
-                    },
-                    {
-                        author: "Elena Castro",
-                        date: "10 febrero, 2025",
-                        rating: 4,
-                        text: "Me gustó mucho su enfoque analítico de las obras contemporáneas. La profesora fomenta la interpretación personal y el pensamiento crítico. Las sesiones de debate son lo mejor del curso, aunque a veces no hay tiempo suficiente para profundizar. Los ensayos son desafiantes pero muy formativos.",
-                        shift: "Mañana"
-                    },
-                    {
-                        author: "Jorge Méndez",
-                        date: "20 enero, 2025",
-                        rating: 2,
-                        text: "Las clases son principalmente lecturas en voz alta de sus notas. Falta dinamismo y participación estudiantil. La selección de lecturas es buena, pero el método de evaluación es confuso y los criterios de calificación no son claros. Podrían implementarse más actividades interactivas para mejorar el curso.",
-                        shift: "Noche"
-                    }
-                ]
+        // Los datos de profesores y comentarios ahora se cargarán desde la base de datos MySQL
+        // Eliminamos el array 'professors' local
+        let allProfessorsData = []; // Variable global para almacenar los datos cargados de la DB
+
+        // Función para obtener estrellas según valoración (mantener)
+        function getRatingStars(rating) {
+            let stars = '';
+            for (let i = 1; i <= 5; i++) {
+                if (i <= rating) {
+                    stars += '<i class="fas fa-star"></i>';
+                } else {
+                    stars += '<i class="far fa-star"></i>';
+                }
             }
-        ];
+            return stars;
+        }
 
-        // Función para mostrar la página de inicio
+        // --- Funciones para la navegación (adaptadas) ---
+        function hideAllPages() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('bestTeachersPage').style.display = 'none'; // New page
+            document.getElementById('professorsList').style.display = 'none';
+            document.getElementById('aboutPage').style.display = 'none';
+            document.getElementById('suggestionsPage').style.display = 'none';
+            document.getElementById('professorProfile').style.display = 'none';
+            document.getElementById('addOpinionForm').style.display = 'none';
+            document.getElementById('tasksPage').style.display = 'none';
+            closeMobileMenu(); // Close menu on page navigation
+        }
+
         function showHomePage() {
+            hideAllPages();
             document.getElementById('homePage').style.display = 'block';
-            document.getElementById('professorsList').style.display = 'none';
-            document.getElementById('aboutPage').style.display = 'none';
-            document.getElementById('suggestionsPage').style.display = 'none';
-            document.getElementById('professorProfile').style.display = 'none';
-            document.getElementById('addOpinionForm').style.display = 'none';
+            // Clear and reset search input when navigating to home
+            document.getElementById('homeSearchInput').value = '';
         }
 
-        // Función para mostrar la página de profesores
+        function showBestTeachersPage() {
+            hideAllPages();
+            document.getElementById('bestTeachersPage').style.display = 'block';
+            // Optionally, reload or ensure featured teachers are displayed correctly
+            // If featured teachers are dynamic and not just static HTML, you'd call a function here
+            // Example: loadFeaturedTeachers();
+        }
+
         function showProfessorsPage() {
-            document.getElementById('homePage').style.display = 'none';
+            hideAllPages();
             document.getElementById('professorsList').style.display = 'block';
-            document.getElementById('aboutPage').style.display = 'none';
-            document.getElementById('suggestionsPage').style.display = 'none';
-            document.getElementById('professorProfile').style.display = 'none';
-            document.getElementById('addOpinionForm').style.display = 'none';
-            
-            // Cargar todos los profesores
-            loadAllProfessors();
+            loadAllProfessors(); // Llama a la función de carga desde PHP
+            // Clear and reset search input when navigating to all professors
+            document.getElementById('professorsSearchInput').value = '';
         }
 
-        // Función para mostrar la página acerca de
         function showAboutPage() {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('professorsList').style.display = 'none';
+            hideAllPages();
             document.getElementById('aboutPage').style.display = 'block';
-            document.getElementById('professorProfile').style.display = 'none';
-            document.getElementById('suggestionsPage').style.display = 'none';
-            document.getElementById('addOpinionForm').style.display = 'none';
         }
 
-        // Función para mostrar la página sugerencias
         function showSuggestionsPage() {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('professorsList').style.display = 'none';
-            document.getElementById('aboutPage').style.display = 'none';
+            hideAllPages();
+            document.getElementById('suggestionForm').reset(); // Clear form on show
+            document.getElementById('suggestionSuccess').style.display = 'none'; // Hide success message
             document.getElementById('suggestionsPage').style.display = 'block';
-            document.getElementById('professorProfile').style.display = 'none';
-            document.getElementById('addOpinionForm').style.display = 'none';
         }
-        
-        // Función para mostrar el perfil de un profesor
+
+        function showTasksPage() {
+            hideAllPages();
+            document.getElementById('tasksPage').style.display = 'block';
+            showCycles(); // Show cycles by default when tasks page is opened
+        }
+
         function showProfessorProfile(professorId) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('professorsList').style.display = 'none';
-            document.getElementById('aboutPage').style.display = 'none';
-            document.getElementById('suggestionsPage').style.display = 'none';
+            hideAllPages();
             document.getElementById('professorProfile').style.display = 'block';
-            document.getElementById('addOpinionForm').style.display = 'none';
-            
-            // Cargar datos del profesor
-            loadProfessorProfile(professorId);
+
+            // Cargar datos del profesor usando la data global (que ya se cargó de la DB)
+            const professor = allProfessorsData.find(p => p.id == professorId);
+            if (professor) {
+                loadProfessorProfileData(professor); // Llama a la función para mostrar el perfil
+            } else {
+                alert('Profesor no encontrado.');
+                showProfessorsPage(); // O volver a la página de profesores
+            }
         }
-        
-        // Función para mostrar el formulario de agregar opinión
+
         function showAddOpinionForm(fromProfile = false) {
-            document.getElementById('homePage').style.display = 'none';
-            document.getElementById('professorsList').style.display = 'none';
-            document.getElementById('aboutPage').style.display = 'none';
-            document.getElementById('suggestionsPage').style.display = 'none';
-            document.getElementById('professorProfile').style.display = 'none';
+            hideAllPages();
             document.getElementById('addOpinionForm').style.display = 'block';
-            
-            // Cargar la lista de profesores en el select
+
+            // Cargar la lista de profesores en el select desde la data global
             const selectElement = document.getElementById('opinionProfessor');
             selectElement.innerHTML = '';
-            
-            professors.forEach(professor => {
+
+            allProfessorsData.forEach(professor => {
                 const option = document.createElement('option');
                 option.value = professor.id;
                 option.textContent = professor.name;
                 selectElement.appendChild(option);
             });
-            
+
             // Si venimos desde el perfil, preseleccionamos al profesor
             if (fromProfile && window.currentProfessorId) {
                 selectElement.value = window.currentProfessorId;
             }
         }
-        
-        // Función para ocultar el formulario de agregar opinión
+
         function hideAddOpinionForm() {
-            // Volver a la página anterior
             if (window.currentProfessorId) {
                 showProfessorProfile(window.currentProfessorId);
             } else {
-                showHomePage();
+                showHomePage(); // Or show the Best Teachers page, depending on preference
             }
         }
 
-        // Función para mostrar el formulario de inicio de sesión
         function showLoginForm() {
             alert('Funcionalidad de inicio de sesión en desarrollo');
+            closeMobileMenu(); // Close menu even if alert is shown
         }
-        
-        // Función para volver a la página anterior
+
+        // --- Hamburger menu specific functions ---
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+            mobileMenu.classList.toggle('open');
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobile-menu');
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.remove('active');
+            mobileMenu.classList.remove('open');
+        }
+
+        // Global variables to keep track of current selection for tasks
+        window.currentCycle = '';
+        window.currentCareer = '';
+
+        function showCycles() {
+            document.getElementById('cyclesContainer').style.display = 'block';
+            document.getElementById('careersContainer').style.display = 'none';
+            document.getElementById('tasksContainer').style.display = 'none';
+        }
+
+        // Dummy data for careers and tasks for demonstration based on cycles
+        const dummyData = {
+            'Ciclo 1': {
+                'Administracion de Empresas': [
+                    { title: 'TA1: Plan de Negocios', description: 'Desarrollo de un plan de negocios completo para una startup.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+Admin' },
+                    { title: 'TA2: Análisis FODA', description: 'Realización de un análisis FODA para una empresa establecida.', previewImg: 'https://via.placeholder.com/250x150?text=TA2+Admin' },
+                    { title: 'TA3: Estudio de Mercado', description: 'Investigación y segmentación de mercado para un nuevo producto.', previewImg: 'https://via.placeholder.com/250x150?text=TA3+Admin' }
+                ],
+                'Marketing': [
+                    { title: 'TA1: Estrategia Digital', description: 'Creación de una estrategia de marketing digital para redes sociales.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+Mkt' },
+                    { title: 'TA2: Campaña Publicitaria', description: 'Diseño de una campaña publicitaria cross-media.', previewImg: 'https://via.placeholder.com/250x150?text=TA2+Mkt' }
+                ],
+                'Contabilidad': [
+                    { title: 'TA1: Asientos Contables', description: 'Registro de transacciones básicas en libro diario y mayor.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+Cont' },
+                    { title: 'TA2: Balance General', description: 'Elaboración de un balance general de una empresa ficticia.', previewImg: 'https://via.placeholder.com/250x150?text=TA2+Cont' }
+                ]
+            },
+            'Ciclo 2': {
+                'Finanzas': [
+                    { title: 'TA1: Evaluación de Proyectos', description: 'Métodos para evaluar la viabilidad financiera de proyectos.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+Fin' }
+                ],
+                'Derecho Empresarial': [
+                    { title: 'TA1: Contratos Comerciales', description: 'Análisis de cláusulas en contratos de compraventa.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+Der' }
+                ]
+            },
+            'Ciclo 3': {
+                'Recursos Humanos': [
+                    { title: 'TA1: Diseño de Puestos', description: 'Creación de perfiles de puestos y descripción de tareas.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+RRHH' }
+                ]
+            },
+            'Ciclo 4': {
+                'Investigación de Operaciones': [
+                    { title: 'TA1: Optimización de Rutas', description: 'Uso de algoritmos para optimizar la logística de distribución.', previewImg: 'https://via.placeholder.com/250x150?text=TA1+IO' }
+                ]
+            }
+            // Add more cycles, careers, and tasks as needed
+        };
+
+
+        function showCareers(cycle) {
+            window.currentCycle = cycle;
+            document.getElementById('cyclesContainer').style.display = 'none';
+            document.getElementById('careersContainer').style.display = 'block';
+            document.getElementById('tasksContainer').style.display = 'none';
+            document.getElementById('currentCycleTitle').textContent = `Carreras en ${cycle}`;
+
+            const careersGrid = document.getElementById('careersGrid');
+            careersGrid.innerHTML = ''; // Clear previous careers
+
+            const careersForCycle = dummyData[cycle] ? Object.keys(dummyData[cycle]) : [];
+
+            if (careersForCycle.length > 0) {
+                careersForCycle.forEach(career => {
+                    const careerCard = document.createElement('div');
+                    careerCard.className = 'career-card';
+                    careerCard.onclick = () => showTasks(cycle, career);
+                    careerCard.textContent = career;
+                    careersGrid.appendChild(careerCard);
+                });
+            } else {
+                careersGrid.innerHTML = '<p>No hay carreras disponibles para este ciclo.</p>';
+            }
+        }
+
+        function showTasks(cycle, career) {
+            window.currentCareer = career;
+            document.getElementById('careersContainer').style.display = 'none';
+            document.getElementById('tasksContainer').style.display = 'block';
+            document.getElementById('currentCareerTitle').textContent = `Tareas de ${career} en ${cycle}`;
+
+            const tasksGrid = document.getElementById('allTasks');
+            tasksGrid.innerHTML = ''; // Clear previous tasks
+
+            const tasksForCareer = dummyData[cycle] && dummyData[cycle][career] ? dummyData[cycle][career] : [];
+
+            if (tasksForCareer.length > 0) {
+                tasksForCareer.forEach(task => {
+                    const taskCard = document.createElement('div');
+                    taskCard.className = 'task-card';
+                    taskCard.innerHTML = `
+                        <h3>${task.title}</h3>
+                        <p>${task.description}</p>
+                        <div class="watermarked-preview">
+                            <img src="${task.previewImg}" alt="Vista previa de la tarea" class="watermark-img">
+                            <div class="watermark-text">Opinaula</div>
+                        </div>
+                        <button class="add-opinion-btn" onclick="contactForFullTask('${task.title}')">Solicitar Tarea Completa</button>
+                    `;
+                    tasksGrid.appendChild(taskCard);
+                });
+            } else {
+                tasksGrid.innerHTML = '<p>No hay Tareas Académicas disponibles para esta carrera en este ciclo.</p>';
+            }
+        }
+
+        function contactForFullTask(taskTitle) {
+            const message = encodeURIComponent(`Hola, estoy interesado en la Tarea Académica "${taskTitle}" (${window.currentCareer}, ${window.currentCycle}). ¿Podrían darme más información?`);
+            window.open(`https://wa.me/946074618?text=${message}`, '_blank');
+        }
+
         function goBack() {
-            if (window.previousPage === 'home') {
-                showHomePage();
+            if (document.getElementById('tasksContainer').style.display === 'block') {
+                showCareers(window.currentCycle);
+            } else if (document.getElementById('careersContainer').style.display === 'block') {
+                showCycles();
+            } else if (window.currentProfessorId) { // Existing logic for professor profile
+                showProfessorProfile(window.currentProfessorId);
+                window.currentProfessorId = null; // Clear after returning
             } else if (window.previousPage === 'professors') {
                 showProfessorsPage();
             } else {
-                showHomePage();
+                showHomePage(); // Default back to home
             }
         }
 
-        // Función para cargar todos los profesores
-        function loadAllProfessors() {
+        // Función para renderizar la lista de profesores filtrada
+        function renderProfessors(professorsToDisplay) {
             const container = document.getElementById('allTeachers');
-            container.innerHTML = '';
-            
-            professors.forEach(professor => {
-                const card = document.createElement('div');
-                card.className = 'teacher-card';
-                card.onclick = function() {
-                    window.previousPage = 'professors';
-                    showProfessorProfile(professor.id);
-                };
-                
-                const ratingStars = getRatingStars(professor.rating);
-                
-                card.innerHTML = `
-                    <div class="teacher-avatar">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="teacher-name">${professor.name}</div>
-                    <div class="teacher-subject">${professor.subject}</div>
-                    <div class="rating">
-                        ${ratingStars}
-                    </div>
-                `;
-                
-                container.appendChild(card);
-            });
-        }
-        
-        // Función para cargar el perfil de un profesor
-        function loadProfessorProfile(professorId) {
-            const professor = professors.find(p => p.id == professorId);
-            
-            if (!professor) {
-                alert('Profesor no encontrado');
-                showProfessorsPage();
-                return;
+            container.innerHTML = ''; // Clear current content
+
+            if (professorsToDisplay.length > 0) {
+                professorsToDisplay.forEach(professor => {
+                    const card = document.createElement('div');
+                    card.className = 'teacher-card';
+                    card.onclick = function() {
+                        window.previousPage = 'professors'; // Set previous page for back button
+                        showProfessorProfile(professor.id);
+                    };
+
+                    const ratingStars = getRatingStars(professor.average_rating);
+
+                    card.innerHTML = `
+                        <div class="teacher-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="teacher-name">${professor.name}</div>
+                        <div class="teacher-subject">${professor.subject}</div>
+                        <div class="rating">
+                            ${ratingStars}
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+            } else {
+                container.innerHTML = '<p>No se encontraron profesores que coincidan con la búsqueda.</p>';
             }
-            
-            // Guardar el ID del profesor actual
-            window.currentProfessorId = professorId;
-            
-            // Cargar datos del profesor
+        }
+
+        // Función para cargar todos los profesores desde PHP y luego renderizarlos
+        async function loadAllProfessors() {
+            const container = document.getElementById('allTeachers');
+            container.innerHTML = 'Cargando profesores...'; // Mensaje de carga
+
+            try {
+                const response = await fetch('get_professors.php'); // URL de tu script PHP
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                allProfessorsData = await response.json(); // Almacenar los datos globalmente
+                renderProfessors(allProfessorsData); // Renderizar todos los profesores inicialmente
+
+            } catch (error) {
+                console.error('Error al cargar profesores:', error);
+                container.innerHTML = '<p>Error al cargar profesores. Inténtalo de nuevo más tarde.</p>';
+            }
+        }
+
+        // Función para filtrar profesores basada en el input de búsqueda
+        function filterProfessors(searchTerm) {
+            const lowerCaseSearchTerm = searchTerm.toLowerCase();
+            const filteredProfessors = allProfessorsData.filter(professor =>
+                professor.name.toLowerCase().includes(lowerCaseSearchTerm) ||
+                professor.subject.toLowerCase().includes(lowerCaseSearchTerm)
+            );
+            renderProfessors(filteredProfessors);
+        }
+
+        // Modificar loadProfessorProfile para usar datos ya cargados y nombres de columna de la DB
+        function loadProfessorProfileData(professor) { // Renombrado para evitar conflicto con la anterior showProfessorProfile
+            window.currentProfessorId = professor.id;
+
             document.getElementById('profileName').textContent = professor.name;
             document.getElementById('profileSubject').textContent = professor.subject;
-            document.getElementById('profileRating').innerHTML = getRatingStars(professor.rating);
+            document.getElementById('profileRating').innerHTML = getRatingStars(professor.average_rating); // Usar average_rating
             document.getElementById('opinionCount').textContent = professor.comments ? professor.comments.length : 0;
-            document.getElementById('experienceYears').textContent = professor.experienceYears || 0;
-            document.getElementById('recommendedPercentage').textContent = professor.recommendedPercentage || '0%';
-            
-            
-            // Calcular turnos únicos
+            document.getElementById('experienceYears').textContent = professor.experience_years || 0; // Usar experience_years
+            document.getElementById('recommendedPercentage').textContent = professor.recommended_percentage || '0%'; // Usar recommended_percentage
+
+            const commentsContainer = document.getElementById('commentsContainer');
+            commentsContainer.innerHTML = '';
+
+            if (professor.comments && professor.comments.length > 0) {
+                professor.comments.forEach(comment => {
+                    const commentElement = document.createElement('div');
+                    commentElement.className = 'comment';
+
+                    commentElement.innerHTML = `
+                        <div class="comment-header">
+                            <div class="comment-author">${comment.author_name}</div>
+                            <div class="comment-date">${comment.comment_date}</div>
+                        </div>
+                        <div class="comment-rating">
+                            ${getRatingStars(comment.rating)}
+                        </div>
+                        <div class="comment-text">${comment.comment_text}</div>
+                        <div style="font-size: 0.85rem; color: #666;">Turno: ${comment.shift}</div>
+                    `;
+                    commentsContainer.appendChild(commentElement);
+                });
+            } else {
+                commentsContainer.innerHTML = '<p>Este profesor aún no tiene opiniones. ¡Sé el primero en comentar!</p>';
+            }
+
+            // Calcular y mostrar turnos únicos (mantener, adaptado a los nombres de la DB)
             const shifts = new Set();
             if (professor.comments && professor.comments.length > 0) {
                 professor.comments.forEach(comment => {
@@ -1099,149 +1360,209 @@
             }
             const shiftsArray = Array.from(shifts).sort();
             document.getElementById('profileShifts').textContent = "Turno: " + (shiftsArray.length > 0 ? shiftsArray.join("-") : "No especificado");
-
-            // Cargar comentarios
-            const commentsContainer = document.getElementById('commentsContainer');
-            commentsContainer.innerHTML = '';
-            
-            if (professor.comments && professor.comments.length > 0) {
-                professor.comments.forEach(comment => {
-                    const commentElement = document.createElement('div');
-                    commentElement.className = 'comment';
-                    
-                    commentElement.innerHTML = `
-                        <div class="comment-header">
-                            <div class="comment-author">${comment.author}</div>
-                            <div class="comment-date">${comment.date}</div>
-                        </div>
-                        <div class="comment-rating">
-                            ${getRatingStars(comment.rating)}
-                        </div>
-                        <div class="comment-text">${comment.text}</div>
-                        <div style="font-size: 0.85rem; color: #666;">Turno: ${comment.shift}</div>
-                    `;
-                    
-                    commentsContainer.appendChild(commentElement);
-                });
-            } else {
-                commentsContainer.innerHTML = '<p>Este profesor aún no tiene opiniones. ¡Sé el primero en comentar!</p>';
-            }
         }
 
-        // Función para obtener estrellas según valoración
-        function getRatingStars(rating) {
-            let stars = '';
-            for (let i = 1; i <= 5; i++) {
-                if (i <= rating) {
-                    stars += '<i class="fas fa-star"></i>';
-                } else {
-                    stars += '<i class="far fa-star"></i>';
-                }
-            }
-            return stars;
-        }
 
-        // Función para añadir un nuevo profesor
-        function addNewProfessor() {
+        // --- Funciones para añadir/enviar datos a la DB (ahora usan PHP) ---
+
+        // Función para añadir un nuevo profesor (Necesitará nuevo script PHP: add_professor.php)
+        async function addNewProfessor() {
             const name = document.getElementById('professorName').value;
             const subject = document.getElementById('professorSubject').value;
-            const rating = parseInt(document.getElementById('professorRating').value);
-            
-            if (name && subject) {
-                const newId = professors.length + 1;
-                professors.push({
-                    id: newId,
-                    name: name,
-                    subject: subject,
-                    rating: rating,
-                    experienceYears: 0,
-                    recommendedPercentage: "0%",
-                    comments: []
+            const initialRating = parseInt(document.getElementById('professorRating').value); // Valoración inicial
+
+            if (!name || !subject) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            try {
+                const response = await fetch('add_professor.php', { // Llama a tu script PHP
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, subject, initial_rating: initialRating })
                 });
-                
-                // Recargar la lista de profesores
-                loadAllProfessors();
-                
-                // Limpiar el formulario
-                document.getElementById('professorName').value = '';
-                document.getElementById('professorSubject').value = '';
-                document.getElementById('professorRating').value = '4';
-                
-                alert('Profesor añadido correctamente');
-            } else {
-                alert('Por favor, completa todos los campos');
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Profesor añadido correctamente');
+                    document.getElementById('professorName').value = '';
+                    document.getElementById('professorSubject').value = '';
+                    document.getElementById('professorRating').value = '4';
+                    loadAllProfessors(); // Recargar la lista para ver el nuevo profesor
+                } else {
+                    alert('Error al añadir profesor: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error al añadir profesor:', error);
+                alert('Error de conexión al añadir profesor.');
             }
         }
-        
-        // Función para enviar una opinión
-        function submitOpinion() {
+
+        // Función para enviar una opinión (Necesitará nuevo script PHP: add_comment.php)
+        async function submitOpinion() {
             const professorId = document.getElementById('opinionProfessor').value;
-            const name = document.getElementById('opinionName').value;
+            const authorName = document.getElementById('opinionName').value;
             const rating = parseInt(document.getElementById('opinionRating').value);
             const shift = document.getElementById('opinionShift').value;
-            const text = document.getElementById('opinionText').value;
-            const palabrasProhibidas = ['tonto', 'estúpido', 'idiota', 'mierda', 'imbécil']; // Puedes ampliar la lista
+            const commentText = document.getElementById('opinionText').value;
 
-            
-            if (professorId && name && text) {
-                // Encontrar el profesor
-                const professor = professors.find(p => p.id == professorId);
-                
-                if (professor) {
-                    // Crear la fecha actual en formato legible
-                    const now = new Date();
-                    const day = now.getDate();
-                    const month = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'][now.getMonth()];
-                    const year = now.getFullYear();
-                    const dateStr = `${day} ${month}, ${year}`;
-                    
-                    // Añadir el comentario
-                    if (!professor.comments) {
-                        professor.comments = [];
-                    }
-                    
-                    professor.comments.push({
-                        author: name,
-                        date: dateStr,
+            if (!professorId || !authorName || !commentText) {
+                alert('Por favor, completa todos los campos.');
+                return;
+            }
+
+            // Validación de palabras prohibidas (mantener)
+            const palabrasProhibidas = ['tonto', 'estúpido', 'idiota', 'mierda', 'imbécil'];
+            for (const palabra of palabrasProhibidas) {
+                if (commentText.toLowerCase().includes(palabra)) {
+                    alert('Tu comentario contiene palabras prohibidas. Por favor, sé respetuoso.');
+                    return;
+                }
+            }
+
+            try {
+                const response = await fetch('add_comment.php', { // Llama a tu script PHP
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        professor_id: professorId,
+                        author_name: authorName,
                         rating: rating,
-                        text: text,
-                        shift: shift
-                    });
-                    
-                    // Recalcular la valoración media del profesor
-                    const totalRating = professor.comments.reduce((sum, comment) => sum + comment.rating, 0);
-                    professor.rating = Math.round(totalRating / professor.comments.length);
-                    
-                    // Limpiar el formulario
+                        shift: shift,
+                        comment_text: commentText
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    alert('Opinión enviada correctamente');
                     document.getElementById('opinionName').value = '';
                     document.getElementById('opinionRating').value = '4';
                     document.getElementById('opinionText').value = '';
                     document.getElementById('opinionShift').value = 'Mañana';
-                    
-                    alert('Opinión enviada correctamente');
-                    
-                    // Volver al perfil del profesor
-                    showProfessorProfile(professorId);
+
+                    // Recargar los datos del profesor específico para ver la nueva opinión
+                    // Y recalcular el average_rating
+                    const updatedProfessorsResponse = await fetch('get_professors.php');
+                    allProfessorsData = await updatedProfessorsResponse.json();
+
+                    const updatedProfessor = allProfessorsData.find(p => p.id == professorId);
+                    if (updatedProfessor) {
+                        loadProfessorProfileData(updatedProfessor);
+                    }
+                    hideAddOpinionForm(); // Ocultar formulario
+                } else {
+                    alert('Error al enviar opinión: ' + result.message);
                 }
-            } else {
-                alert('Por favor, completa todos los campos');
+            } catch (error) {
+                console.error('Error al enviar opinión:', error);
+                alert('Error de conexión al enviar opinión.');
             }
         }
+
+        // Función para enviar sugerencia (Necesitará nuevo script PHP: add_suggestion.php)
+        async function submitSuggestion(event) {
+            event.preventDefault(); // Previene el envío del formulario HTML
+
+            const name = document.getElementById('suggestionName').value;
+            const type = document.getElementById('suggestionType').value;
+            const suggestionText = document.getElementById('suggestionText').value;
+
+            if (!suggestionText) {
+                alert('Por favor, ingresa tu sugerencia.');
+                return;
+            }
+
+            try {
+                const response = await fetch('add_suggestion.php', { // Llama a tu script PHP
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, type, suggestion_text: suggestionText })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    document.getElementById('suggestionSuccess').style.display = 'block';
+                    document.getElementById('suggestionForm').reset(); // Limpia el formulario
+                    setTimeout(() => { // Oculta el mensaje después de unos segundos
+                        document.getElementById('suggestionSuccess').style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('Error al enviar sugerencia: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error al enviar sugerencia:', error);
+                alert('Error de conexión al enviar sugerencia.');
+            }
+        }
+        // Asocia el evento submit del formulario de sugerencias
+        document.getElementById('suggestionForm').addEventListener('submit', submitSuggestion);
+
 
         // Inicializar la página
         document.addEventListener('DOMContentLoaded', function() {
             showHomePage();
-            
-            // Hacer clicables las tarjetas de profesores en la página de inicio
-            document.querySelectorAll('#homePage .teacher-card').forEach((card, index) => {
+
+            // Event listener for the hamburger menu toggle
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenu) {
+                mobileMenu.addEventListener('click', toggleMobileMenu);
+            }
+
+            // If you want the teacher cards on the Best Teachers page to also lead to the professor profile loaded from the DB:
+            document.querySelectorAll('#bestTeachersPage .teacher-card').forEach(card => {
                 card.style.cursor = 'pointer';
                 card.onclick = function() {
-                    window.previousPage = 'home';
-                    showProfessorProfile(index + 1); // +1 porque los índices empiezan en 0 pero los IDs en 1
+                    const professorName = card.querySelector('.teacher-name').textContent;
+                    // Find the professor by name (ideally by ID, but here we don't have IDs in the static HTML)
+                    const professor = allProfessorsData.find(p => p.name === professorName);
+                    if (professor) {
+                        window.previousPage = 'bestTeachers'; // Set previous page for back button
+                        showProfessorProfile(professor.id);
+                    } else {
+                        alert('Profesor no encontrado en la base de datos.');
+                    }
                 };
             });
+
+            // Load professors on initial page load so they are available for the "Add Opinion" select
+            loadAllProfessors();
+
+            // Add event listener for the search input on the Home Page
+            const homeSearchInput = document.getElementById('homeSearchInput');
+            if (homeSearchInput) {
+                homeSearchInput.addEventListener('input', function() {
+                    // When typing in the home search, it should navigate to and filter the professors list
+                    if (this.value.length > 0) {
+                        showProfessorsPage(); // Navigate to professors page
+                        document.getElementById('professorsSearchInput').value = this.value; // Copy value
+                        filterProfessors(this.value); // Filter professors
+                    } else {
+                        // If search box is cleared, ensure all professors are shown
+                        filterProfessors('');
+                    }
+                });
+            }
+
+            // Add event listener for the search input on the Professors List Page
+            const professorsSearchInput = document.getElementById('professorsSearchInput');
+            if (professorsSearchInput) {
+                professorsSearchInput.addEventListener('input', function() {
+                    filterProfessors(this.value);
+                });
+            }
         });
-        
+
     </script>
 </body>
 </html>
